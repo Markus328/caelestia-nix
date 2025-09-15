@@ -5,9 +5,9 @@ inputs: {
   ...
 }: let
   cfg = config.programs.caelestia-dots;
-  utils = import ./utils.nix {inherit config lib;};
+  mods = import ./mods.nix {inherit lib;};
 in {
-  imports = with utils; [
+  imports = with mods; [
     inputs.caelestia-shell.homeManagerModules.default
     (mkPassMod ["shell"] ["programs" "caelestia"])
     (mkPassMod ["cli"] ["programs" "caelestia" "cli"])
