@@ -1,27 +1,35 @@
 {lib}: let
   mods = rec {
     _make_module = {
-      path,
+      parentPath,
+      subPath,
       root ? ./configs,
       raw ? false,
       module ? null,
       cfg ? null,
-    }: ({
-      config,
-      lib,
-      pkgs,
-      ...
-    }: let
-      mod = lib.getAttrFromPath path config.programs.caelestia-dots;
-      mod_name = lib.showOption path;
-      mod_path = lib.path.append root (lib.path.subpath.join path);
-      default =
-        if cfg != null
-        then cfg {inherit config lib mod;}
-        else import (lib.path.append mod_path "config.nix") {inherit config lib mod;};
-    in
-      lib.recursiveUpdate {
-        options.programs.caelestia-dots = lib.setAttrByPath path (with lib;
+    }: (
+      {
+        config,
+        lib,
+        pkgs,
+        ...
+      }: let
+        parent = lib.getAttrFromPath parentPath config.programs.caelestia-dots;
+        path = parentPath ++ subPath;
+        mod = lib.getAttrFromPath path config.programs.caelestia-dots;
+        mod_name = lib.showOption path;
+        mod_path = lib.path.append root (lib.path.subpath.join path);
+        module_set =
+          if module != null
+          then module {inherit config lib pkgs mod path mods;}
+          else import mod_path {inherit config lib pkgs mod path mods;};
+        default =
+          if cfg != null
+          then cfg {inherit config lib mod pkgs;}
+          else import (lib.path.append mod_path "config.nix") {inherit config lib mod pkgs;};
+      in {
+        imports = module_set.imports or [];
+        options.programs.caelestia-dots = lib.recursiveUpdate (lib.setAttrByPath path (with lib;
           if raw
           then
             (mkOption {
@@ -31,7 +39,12 @@
               apply = userSettings: lib.recursiveUpdate default userSettings;
             })
           else {
-            enable = mkEnableOption "Enable Caelestia ${mod_name} module";
+            enable = mkOption {
+              type = types.bool;
+              default = true;
+              description = "Enable Caelestia ${mod_name} module";
+            };
+            _active = mkEnableOption "Set active status of Caelestia ${mod_name} module";
             settings = mkOption {
               type = types.attrsOf types.anything;
               description = "Caelestia ${mod_name} module settings";
@@ -43,18 +56,18 @@
               description = "Caelestia ${mod_name} module extra config";
               default = "";
             };
-          });
+          })) (module_set.options or {});
+        config = lib.mkIf ((parent._active or parent.enable) && (raw || mod.enable)) (lib.mkMerge [
+          {programs.caelestia-dots = lib.setAttrByPath path {_active = lib.mkDefault true;};}
+          (module_set.config or {})
+        ]);
       }
-      (
-        if module != null
-        then module {inherit config lib pkgs mod path mods;}
-        else import mod_path {inherit config lib pkgs mod path mods;}
-      ));
+    );
 
-    mkMod = path: _make_module {inherit path;};
-    mkRawMod = path:
+    mkMod = parentPath: subPath: _make_module {inherit parentPath subPath;};
+    mkRawMod = parentPath: subPath:
       _make_module {
-        inherit path;
+        inherit parentPath subPath;
         raw = true;
       };
 
@@ -64,7 +77,16 @@
       args ? {},
       parent ? [],
     }: paths:
-      map (path: _make_module (args // {path = parent ++ [path];})) paths;
+      map (path:
+        _make_module (args
+          // {
+            parentPath = parent;
+            subPath =
+              if lib.isList path
+              then path
+              else [path];
+          }))
+      paths;
   };
 in
   mods
