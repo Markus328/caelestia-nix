@@ -2,7 +2,7 @@
   description = "A caelestia-dots home-manager module.";
   inputs = {
     nixpkgs = {
-      url = "github:NixOS/nixpkgs";
+      url = "github:NixOS/nixpkgs/nixos-unstable";
     };
     caelestia-shell = {
       url = "github:caelestia-dots/shell";
