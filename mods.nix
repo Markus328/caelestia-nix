@@ -1,4 +1,5 @@
 {lib}: let
+  infuse = import ./infuse.nix {inherit lib;};
   mods = rec {
     _make_module = {
       parentPath,
@@ -36,7 +37,7 @@
               type = types.attrsOf types.anything;
               description = "Caelestia ${mod_name} module";
               inherit default;
-              apply = userSettings: lib.recursiveUpdate default userSettings;
+              apply = userSettings: infuse default userSettings;
             })
           else {
             enable = mkOption {
@@ -46,10 +47,10 @@
             };
             _active = mkEnableOption "Set active status of Caelestia ${mod_name} module";
             settings = mkOption {
-              type = types.attrsOf types.anything;
+              type = types.either (types.attrsOf types.anything) (types.functionTo (types.attrsOf types.anything));
               description = "Caelestia ${mod_name} module settings";
               inherit default;
-              apply = userSettings: lib.recursiveUpdate default userSettings;
+              apply = userSettings: infuse default userSettings;
             };
             extraConfig = mkOption {
               type = types.str;
