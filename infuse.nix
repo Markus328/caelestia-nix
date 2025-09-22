@@ -10,8 +10,6 @@
   # This function will wrap the settings to be used as infusion, allowing a lib.modules like experience
   # with infuse.nix bonus.
   wrapSettingsToInfusion = let
-    isFunction = value: builtins.isFunction value;
-
     isSugar = value:
       if lib.isAttrs value
       then let
