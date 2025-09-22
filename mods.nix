@@ -47,7 +47,19 @@
             };
             _active = mkEnableOption "Set active status of Caelestia ${mod_name} module";
             settings = mkOption {
-              type = types.either (types.attrsOf types.anything) (types.functionTo (types.attrsOf types.anything));
+              type = with types; let
+                valueType = nullOr (oneOf [
+                  bool
+                  int
+                  float
+                  str
+                  types.path
+                  (functionTo valueType)
+                  (attrsOf valueType)
+                  (listOf valueType)
+                ]);
+              in
+                valueType;
               description = "Caelestia ${mod_name} module settings";
               inherit default;
               apply = userSettings: infuse default userSettings;
