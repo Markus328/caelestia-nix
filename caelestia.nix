@@ -4,14 +4,11 @@ inputs: {
   pkgs,
   ...
 }: let
-  cfg = config.programs.caelestia-dots;
   mods = import ./mods.nix {inherit lib;};
 in {
   imports = with mods;
     [
       inputs.caelestia-shell.homeManagerModules.default
-      # (mkMod ["caelestia" "shell"])
-      # (mkMod ["caelestia" "cli"])
     ]
     ++ (mkMultipleMods {parent = [];} [
       "hypr"
