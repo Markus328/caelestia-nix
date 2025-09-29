@@ -1,5 +1,35 @@
 # Customization
 
+## Defaults
+
+Looking for instructions? Skip this section.
+
+<br>
+
+Here there's a list of default configs for each module, use them to guide you through your overrides, they are greatly based (copied) on caelestia-dots, but with some minor substituions and integrations.
+
+- [hypr](../configs/hypr/config.nix)
+  - [variables](../configs/hypr/variables/config.nix) (raw)
+  - hyprland
+    - [env](../configs/hypr/hyprland/env.nix)
+    - [general](../configs/hypr/hyprland/general.nix)
+    - [input](../configs/hypr/hyprland/input.nix)
+    - [misc](../configs/hypr/hyprland/misc.nix)
+    - [animations](../configs/hypr/hyprland/animations.nix)
+    - [decoration](../configs/hypr/hyprland/decoration.nix)
+    - [group](../configs/hypr/hyprland/group.nix)
+    - [execs](../configs/hypr/hyprland/execs.nix)
+    - [rules](../configs/hypr/hyprland/rules.nix)
+    - [gestures](../configs/hypr/hyprland/gestures.nix)
+    - [keybinds](../configs/hypr/hyprland/keybinds.nix)
+  - [scheme](../configs/hypr/scheme/config.nix) (raw)
+  - [hypridle](../configs/hypr/hypridle/config.nix)
+- caelestia
+  - [shell](../configs/caelestia/shell/config.nix)
+  - [cli](../configs/caelestia/cli/config.nix)
+
+## Modules and submodules
+
 This module, come with many submodules (such as caelestia.shell, caelestia.cli and hypr) that can also have other submodules nested.
 Each submodule, comes with at least a `enable` and `settings` option, except for some "raw modules" (like `hypr.variables`).
 
@@ -189,27 +219,3 @@ For more info about infusion, look at the [infuse.nix](https://codeberg.org/amjo
 ```
 
 </details>
-
-## Defaults
-
-Here are a list of default configs for each module, use them to guide you through your overrides, they are greatly based on caelestia-dots, but with some minor substituions and integrations.
-
-- [hypr](../configs/hypr/config.nix)
-  - [variables](../configs/hypr/variables/config.nix) (raw)
-  - hyprland
-    - [env](../configs/hypr/hyprland/env.nix)
-    - [general](../configs/hypr/hyprland/general.nix)
-    - [input](../configs/hypr/hyprland/input.nix)
-    - [misc](../configs/hypr/hyprland/misc.nix)
-    - [animations](../configs/hypr/hyprland/animations.nix)
-    - [decoration](../configs/hypr/hyprland/decoration.nix)
-    - [group](../configs/hypr/hyprland/group.nix)
-    - [execs](../configs/hypr/hyprland/execs.nix)
-    - [rules](../configs/hypr/hyprland/rules.nix)
-    - [gestures](../configs/hypr/hyprland/gestures.nix)
-    - [keybinds](../configs/hypr/hyprland/keybinds.nix)
-  - [scheme](../configs/hypr/scheme/config.nix) (raw)
-  - [hypridle](../configs/hypr/hypridle/config.nix)
-- caelestia
-  - [shell](../configs/caelestia/shell/config.nix)
-  - [cli](../configs/caelestia/cli/config.nix)
