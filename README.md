@@ -5,8 +5,6 @@ This home-manager module provides a declarative way to install and configure [ca
 > [!WARNING]
 > This module is in a very experimental stage. Many features and modules are still missing, and breaking changes may occur frequently.
 
----
-
 ## Installation
 
 Add `caelestia-nix` (this repository) and `home-manager` as inputs to your flake, and include the module in your home configuration.
@@ -42,8 +40,6 @@ Add `caelestia-nix` (this repository) and `home-manager` as inputs to your flake
 }
 ```
 
----
-
 ## Customization
 
 This module provides default configurations from caelestia-dots. For now, simply enabling the module is enough:
@@ -75,19 +71,6 @@ You can also deeply configure each module using its "settings" option, such as:
 <br>
 
 You can configure like you configure any other module option, but you have extras: **sugars**. For deeper instructions, read [CUSTOMIZATION](docs/CUSTOMIZATION.md)
-
----
-
-## Missing Modules & Future Work
-
-This module is still in early development. For now, only the following modules are implemented:
-
-- hypr
-- caelestia
-
-Many modules are planned to be added, all the caelestia dotfiles will be added.
-
----
 
 ## Thanks
 
