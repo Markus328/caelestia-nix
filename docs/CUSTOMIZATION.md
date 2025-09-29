@@ -2,9 +2,8 @@
 
 ## Defaults
 
-Looking for instructions? Skip this section.
-
-<br>
+> [!TIP]
+> Looking for instructions? Skip this section.
 
 Here there's a list of default configs for each module, use them to guide you through your overrides, they are greatly based (copied) on caelestia-dots, but with some minor substituions and integrations.
 

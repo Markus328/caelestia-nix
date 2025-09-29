@@ -2,7 +2,8 @@
 
 This home-manager module provides a declarative way to install and configure [caelestia-dots](https://github.com/caelestia-dots/caelestia) using Nix flakes. It includes default configurations from the caelestia-dots repository, written in Nix, and allows easy customization.
 
-**⚠️ Disclaimer:** This module is in a very experimental stage. Many features and modules are still missing, and breaking changes may occur frequently.
+> [!WARNING]
+> This module is in a very experimental stage. Many features and modules are still missing, and breaking changes may occur frequently.
 
 ---
 
