@@ -94,10 +94,7 @@
         _make_module (args
           // {
             parentPath = parent;
-            subPath =
-              if lib.isList path
-              then path
-              else [path];
+            subPath = lib.toList path;
           }))
       paths;
   };

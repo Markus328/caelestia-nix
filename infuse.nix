@@ -39,7 +39,8 @@
       if lib.isAttrs value
       then let
         attrNames = builtins.attrNames value;
-      in (lib.hasPrefix "__" (builtins.head attrNames))
+      in
+        (builtins.length attrNames > 0) && (lib.hasPrefix "__" (builtins.head attrNames))
       else false;
 
     transformToInfusion = set:
@@ -55,4 +56,7 @@
   in
     transformToInfusion;
 in
-  default: userSettings: infuse default (wrapSettingsToInfusion userSettings)
+  default: userSettings:
+    if default != userSettings && userSettings != {}
+    then infuse default (wrapSettingsToInfusion userSettings)
+    else default
