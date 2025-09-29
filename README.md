@@ -70,10 +70,10 @@ You can also deeply configure each module using its "settings" option, such as:
     };
   };
 ```
+
 <br>
 
-You can configure like you configure any other module option, but you have extras: **sugars**. Attributes starting with **__** are interpreted as sugars and its combination can do many transformations in the defaults to get a desired result.
-This module wraps the user configs before passing to infuse, that's because some common set behavior (pure infuse.nix needs `__assign` or `_:` and `__append` to append on lists) can be *ommited*.
+You can configure like you configure any other module option, but you have extras: **sugars**. For deeper instructions, read [CUSTOMIZATION](docs/CUSTOMIZATION.md)
 
 ---
 
