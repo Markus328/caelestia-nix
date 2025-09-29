@@ -120,6 +120,10 @@ For more info about infusion, look at the [infuse.nix](https://codeberg.org/amjo
 
 ### Example
 
+[!NOTE]
+
+> This is only an example to guide your through the overriding process, this is not a recommendation.
+
 <details><summary>example configuration</summary>
 
 ```nix
@@ -190,22 +194,22 @@ For more info about infusion, look at the [infuse.nix](https://codeberg.org/amjo
 
 Here are a list of default configs for each module, use them to guide you through your overrides, they are greatly based on caelestia-dots, but with some minor substituions and integrations.
 
-- [hypr](configs/hypr/config.nix)
-  [variables](configs/hypr/variables/config.nix) (raw)
+- [hypr](../configs/hypr/config.nix)
+  - [variables](../configs/hypr/variables/config.nix) (raw)
   - hyprland
-    - [env](configs/hypr/hyprland/env.nix)
-    - [general](configs/hypr/hyprland/general.nix)
-    - [input](configs/hypr/hyprland/input.nix)
-    - [misc](configs/hypr/hyprland/misc.nix)
-    - [animations](configs/hypr/hyprland/animations.nix)
-    - [decoration](configs/hypr/hyprland/decoration.nix)
-    - [group](configs/hypr/hyprland/group.nix)
-    - [execs](configs/hypr/hyprland/execs.nix)
-    - [rules](configs/hypr/hyprland/rules.nix)
-    - [gestures](configs/hypr/hyprland/gestures.nix)
-    - [keybinds](configs/hypr/hyprland/keybinds.nix)
-  - [scheme](configs/hypr/scheme/config.nix) (raw)
-  - [hypridle](configs/hypr/hypridle/config.nix)
+    - [env](../configs/hypr/hyprland/env.nix)
+    - [general](../configs/hypr/hyprland/general.nix)
+    - [input](../configs/hypr/hyprland/input.nix)
+    - [misc](../configs/hypr/hyprland/misc.nix)
+    - [animations](../configs/hypr/hyprland/animations.nix)
+    - [decoration](../configs/hypr/hyprland/decoration.nix)
+    - [group](../configs/hypr/hyprland/group.nix)
+    - [execs](../configs/hypr/hyprland/execs.nix)
+    - [rules](../configs/hypr/hyprland/rules.nix)
+    - [gestures](../configs/hypr/hyprland/gestures.nix)
+    - [keybinds](../configs/hypr/hyprland/keybinds.nix)
+  - [scheme](../configs/hypr/scheme/config.nix) (raw)
+  - [hypridle](../configs/hypr/hypridle/config.nix)
 - caelestia
-  - [shell](configs/caelestia/shell/config.nix)
-  - [cli](configs/caelestia/cli/config.nix)
+  - [shell](../configs/caelestia/shell/config.nix)
+  - [cli](../configs/caelestia/cli/config.nix)
