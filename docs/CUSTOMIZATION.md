@@ -102,16 +102,16 @@ This wrap doesn't prohibits the use of that sugars and others.
 
 Here is a list of most useful sugars (from infuse.nix + some extensions added by mine):
 
-- `__assign`
+- `__assign`:
   override or set a value. You probably will not use this, it's wrapped automatically for any leaf that's not a set or function. Argument is anything.
-- `__append`
+- `__append`:
   append (add to end) of a list. Wrapped automatically for lists. Argument is a list.
-- `__prepend`
+- `__prepend`:
   prepend (add to start) of a list. Argument is a list.
-- `__remove` (extension)
-  Remove a string from a list of strings, if the string starts with (lib.hasPrefix) one of the strings of the argument list. Argument is a list of strings.
-- `__replace` (extension)
-  Replace any characters in any string of a list of strings, the argument is a list of replacement list. A replacement list is a list of strings, the first ones will be matched and substitued by the last one.
+- `__remove` (extension):
+  remove a string from a list of strings, if the string starts with (lib.hasPrefix) one of the strings of the argument list. Argument is a list of strings.
+- `__replace` (extension):
+  replace any characters in any string of a list of strings, the argument is a list of replacement lists. A replacement list is a list of strings, the first ones will be matched and substitued by the last one.
 
 <br>
 
@@ -150,8 +150,7 @@ For more info about infusion, look at the [infuse.nix](https://codeberg.org/amjo
 
 ### Example
 
-[!NOTE]
-
+> [!NOTE]
 > This is only an example to guide your through the overriding process, this is not a recommendation.
 
 <details><summary>example configuration</summary>
@@ -199,7 +198,7 @@ For more info about infusion, look at the [infuse.nix](https://codeberg.org/amjo
           level = 80;
           title = "High Battery";
           message = "Consider unpluging the charger for the battery safety";
-          icon = "battery_android_frame_4";
+          icon = "battery_android_frame_5";
         }
       ]; # Warn when 80% of battery
 
