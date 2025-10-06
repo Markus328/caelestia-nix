@@ -113,24 +113,23 @@ in {
     "Super+Alt, E, exec, ${app2unit} -- nemo"
     "Ctrl+Alt, Escape, exec, ${app2unit} -- qps"
     "Ctrl+Alt, V, exec, ${app2unit} -- pavucontrol"
-    ", Print, exec, ${caelestia} screenshot"
     "Super+Shift, S, global, caelestia:screenshotFreeze"
     "Super+Shift+Alt, S, global, caelestia:screenshot"
     "Super+Alt, R, exec, ${caelestia} record -s"
     "Ctrl+Alt, R, exec, ${caelestia} record"
     "Super+Shift+Alt, R, exec, ${caelestia} record -r"
     "Super+Shift, C, exec, ${hyprpicker} -a"
-    ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-    "Super+Shift, M, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
     "Super+Shift, L, exec, systemctl suspend-then-hibernate"
     "Super, V, exec, pkill fuzzel || ${caelestia} clipboard"
     "Super+Alt, V, exec, pkill fuzzel || ${caelestia} clipboard -d"
     "Super, Period, exec, pkill fuzzel || ${caelestia} emoji -p"
-    "Super+Alt, f12, exec, notify-send -u low -i dialog-information-symbolic 'Test notification' \"Here's a really long message to test truncation and wrapping\\nYou can middle click or flick this notification to dismiss it!\" -a 'Shell' -A \"Test1=I got it!\" -A \"Test2=Another action\""
   ];
 
   bindl = [
+    ", Print, exec, ${caelestia} screenshot"
     "$kbClearNotifs, global, caelestia:clearNotifs"
+    "$kbRestoreLock, exec, systemctl --user start caelestia"
+    "$kbRestoreLock, global, caelestia:lock"
     ", XF86MonBrightnessUp, global, caelestia:brightnessUp"
     ", XF86MonBrightnessDown, global, caelestia:brightnessDown"
     "Ctrl+Super, Space, global, caelestia:mediaToggle"
@@ -141,6 +140,10 @@ in {
     "Ctrl+Super, Minus, global, caelestia:mediaPrev"
     ", XF86AudioPrev, global, caelestia:mediaPrev"
     ", XF86AudioStop, global, caelestia:mediaStop"
+    ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    "Super+Shift, M, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    "Ctrl+Shift+Alt, V, exec, sleep 0.5s && ydotool type -d 1 \"$(cliphist list | head -1 | cliphist decode)\""
+    "Super+Alt, f12, exec, notify-send -u low -i dialog-information-symbolic 'Test notification' \"Here's a really long message to test truncation and wrapping\\nYou can middle click or flick this notification to dismiss it!\" -a 'Shell' -A \"Test1=I got it!\" -A \"Test2=Another action\""
   ];
 
   bindr = [
@@ -175,6 +178,5 @@ in {
   bindle = [
     ", XF86AudioRaiseVolume, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ $volumeStep%+"
     ", XF86AudioLowerVolume, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume @DEFAULT_AUDIO_SINK@ $volumeStep%-"
-    "Ctrl+Shift+Alt, V, exec, sleep 0.5s && ydotool type -d 1 \"$(cliphist list | head -1 | cliphist decode)\""
   ];
 }
