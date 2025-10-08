@@ -60,6 +60,7 @@ in {
         enable = true;
         provider = "geoclue2";
       };
+      cliphist.enable = true;
     };
     dconf = {
       settings = {

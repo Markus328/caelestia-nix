@@ -6,6 +6,7 @@
   caelestia = "${config.programs.caelestia.cli.package}/bin/caelestia";
   app2unit = "${pkgs.app2unit}/bin/app2unit";
   hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
+  ydotool = "${pkgs.ydotool}/bin/ydotool";
 in {
   # Submaps must be placed first
   _1submap = {
@@ -142,7 +143,7 @@ in {
     ", XF86AudioStop, global, caelestia:mediaStop"
     ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
     "Super+Shift, M, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
-    "Ctrl+Shift+Alt, V, exec, sleep 0.5s && ydotool type -d 1 \"$(cliphist list | head -1 | cliphist decode)\""
+    "Ctrl+Shift+Alt, V, exec, sleep 0.5s && ${ydotool} type -d 1 \"$(cliphist list | head -1 | cliphist decode)\""
     "Super+Alt, f12, exec, notify-send -u low -i dialog-information-symbolic 'Test notification' \"Here's a really long message to test truncation and wrapping\\nYou can middle click or flick this notification to dismiss it!\" -a 'Shell' -A \"Test1=I got it!\" -A \"Test2=Another action\""
   ];
 
