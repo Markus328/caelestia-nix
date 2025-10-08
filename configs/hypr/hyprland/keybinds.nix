@@ -161,7 +161,7 @@ in {
     "Ctrl+Super+Shift, right, movetoworkspace, +1"
     "Ctrl+Super+Shift, left, movetoworkspace, -1"
     "$kbWindowGroupCycleNext, cyclenext, activewindow"
-    "$kbWindowGroupCycleNext, cyclenext, prev, activewindow"
+    "$kbWindowGroupCyclePrev, cyclenext, prev, activewindow"
     "Ctrl+Alt, Tab, changegroupactive, f"
     "Ctrl+Shift+Alt, Tab, changegroupactive, b"
     "Super, Minus, splitratio, -0.1"
