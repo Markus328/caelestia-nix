@@ -31,7 +31,6 @@ in {
     [
       (mkRawMod path ["variables"]) # variables.conf
       (mkRawMod path ["scheme"]) # scheme/default.conf
-      (mkMod path ["hypridle"]) # hypridle.conf
     ]
     ++ mkHyprConfs [
       "env"

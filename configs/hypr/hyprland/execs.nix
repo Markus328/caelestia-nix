@@ -15,7 +15,6 @@ with pkgs; {
     # "gsettings set org.gnome.desktop.interface cursor-size $cursorSize"
     # "/usr/lib/geoclue-2.0/demos/agent"
     # "sleep 1 && ${gammastep}/bin/gammastep"
-    "${sway-audio-idle-inhibit}/bin/sway-audio-idle-inhibit --ignore-source-outputs cava"
     "${bluez}/bin/mpris-proxy"
     "${config.programs.caelestia.cli.package}/bin/caelestia resizer -d"
     # "caelestia shell -d"
