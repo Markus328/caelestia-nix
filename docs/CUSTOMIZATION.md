@@ -22,7 +22,6 @@ Here there's a list of default configs for each module, use them to guide you th
     - [gestures](../configs/hypr/hyprland/gestures.nix)
     - [keybinds](../configs/hypr/hyprland/keybinds.nix)
   - [scheme](../configs/hypr/scheme/config.nix) (raw)
-  - [hypridle](../configs/hypr/hypridle/config.nix)
 - caelestia
   - [shell](../configs/caelestia/shell/config.nix)
   - [cli](../configs/caelestia/cli/config.nix)
