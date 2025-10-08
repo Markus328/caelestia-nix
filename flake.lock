@@ -11,11 +11,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1757772762,
-        "narHash": "sha256-7m4hqYSgRe68lkzHFLb1GN5gQac4X4akKfKgFvhj/34=",
+        "lastModified": 1759888544,
+        "narHash": "sha256-TM9Pv/eHSzwNbPe6kUSB7GKrB4iBkhbgcWooXVmdKxA=",
         "owner": "caelestia-dots",
         "repo": "cli",
-        "rev": "62e7911864ce6ec8a0b371735cf640d81821100e",
+        "rev": "1394e32a7e93bd3edda64838b5c2b07e5f1681be",
         "type": "github"
       },
       "original": {
@@ -33,11 +33,11 @@
         "quickshell": "quickshell"
       },
       "locked": {
-        "lastModified": 1758290768,
-        "narHash": "sha256-sdbPxGA63eaa8TLq1vIFVOLDyuhqGFa+dHXQoGAEBig=",
+        "lastModified": 1759890778,
+        "narHash": "sha256-DzxhtmepaYmtDNI5LZUI6SroMn5XPV4wv8w83aVyeBo=",
         "owner": "caelestia-dots",
         "repo": "shell",
-        "rev": "c6b91f12999ab9e9fb3aba950d50d504020b37d9",
+        "rev": "7e878fd3731993ef693a163d17f03bf5415639a5",
         "type": "github"
       },
       "original": {
@@ -70,11 +70,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1756981260,
-        "narHash": "sha256-GhuD9QVimjynHI0OOyZsqJsnlXr2orowh9H+HYz4YMs=",
+        "lastModified": 1759610621,
+        "narHash": "sha256-P3UPFd95mS/3aNgy40nCXAmyfR2bEEBd+tX6xfkYFb0=",
         "ref": "refs/heads/master",
-        "rev": "6eb12551baf924f8fdecdd04113863a754259c34",
-        "revCount": 672,
+        "rev": "c5c438f1cd1a76660a8658ef929a3d19e968e2ce",
+        "revCount": 689,
         "type": "git",
         "url": "https://git.outfoxxed.me/outfoxxed/quickshell"
       },
