@@ -11,6 +11,7 @@
     };
     font = {
       family = {
+        clock = "Rubik";
         material = "Material Symbols Rounded";
         mono = "CaskaydiaCove NF";
         sans = "Rubik";
