@@ -1,6 +1,7 @@
 {
   config,
   mod,
+  dots,
   ...
 }: {
   appearance = {
@@ -38,10 +39,10 @@
 
   general = {
     apps = {
-      terminal = [config.programs.caelestia-dots.hypr.variables.terminal];
+      terminal = [dots.hypr.variables.terminal];
       audio = ["pavucontrol"];
       playback = ["mpv"];
-      explorer = [config.programs.caelestia-dots.hypr.variables.fileExplorer];
+      explorer = [dots.hypr.variables.fileExplorer];
     };
     battery = {
       warnLevels = [

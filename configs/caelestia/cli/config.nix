@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  dots,
   ...
 }: {
   record = {
@@ -61,7 +62,7 @@
             workspace = {name = "special:sysmon";};
           }
         ];
-        command = ["${config.programs.caelestia-dots.hypr.variables.terminal}" "-a" "btop" "-T" "btop" "fish" "-C" "exec btop"];
+        command = ["${dots.hypr.variables.terminal}" "-a" "btop" "-T" "btop" "fish" "-C" "exec btop"];
       };
     };
 
