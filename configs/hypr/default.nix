@@ -4,6 +4,7 @@
   mod,
   path,
   mods,
+  pkgs,
   ...
 }: let
   mkHyprConfs = confs:
