@@ -31,77 +31,23 @@
       scale = 1;
     };
     transparency = {
-      enabled = false;
       base = 0.85;
+      enabled = false;
       layers = 0.4;
     };
   };
-
-  general = {
-    apps = {
-      terminal = [dots.hypr.variables.terminal];
-      audio = ["pavucontrol"];
-      playback = ["mpv"];
-      explorer = [dots.hypr.variables.fileExplorer];
-    };
-    battery = {
-      warnLevels = [
-        {
-          level = 20;
-          title = "Low battery";
-          message = "You might want to plug in a charger";
-          icon = "battery_android_frame_2";
-        }
-        {
-          level = 10;
-          title = "Did you see the previous message?";
-          message = "You should probably plug in a charger <b>now</b>";
-          icon = "battery_android_frame_1";
-        }
-        {
-          level = 5;
-          title = "Critical battery level";
-          message = "PLUG THE CHARGER RIGHT NOW!!";
-          icon = "battery_android_alert";
-          critical = true;
-        }
-      ];
-      criticalLevel = 3;
-    };
-    idle = {
-      lockBeforeSleep = true;
-      inhibitWhenAudio = true;
-      timeouts = [
-        {
-          timeout = 180;
-          idleAction = "lock";
-        }
-        {
-          timeout = 300;
-          idleAction = "dpms off";
-          returnAction = "dpms on";
-        }
-        {
-          timeout = 600;
-          idleAction = ["systemctl" "suspend-then-hibernate"];
-        }
-      ];
-    };
-  };
-
   background = {
     desktopClock = {
       enabled = false;
     };
     enabled = true;
     visualiser = {
-      enabled = false;
       autoHide = true;
+      enabled = false;
       rounding = 1;
       spacing = 1;
     };
   };
-
   bar = {
     clock = {
       showIcon = true;
@@ -109,47 +55,47 @@
     dragThreshold = 20;
     entries = [
       {
+        enabled = true;
         id = "logo";
-        enabled = true;
       }
       {
+        enabled = true;
         id = "workspaces";
-        enabled = true;
       }
       {
+        enabled = true;
         id = "spacer";
-        enabled = true;
       }
       {
+        enabled = true;
         id = "activeWindow";
-        enabled = true;
       }
       {
+        enabled = true;
         id = "spacer";
-        enabled = true;
       }
       {
+        enabled = true;
         id = "tray";
-        enabled = true;
       }
       {
+        enabled = true;
         id = "clock";
-        enabled = true;
       }
       {
+        enabled = true;
         id = "statusIcons";
-        enabled = true;
       }
       {
-        id = "power";
         enabled = true;
+        id = "power";
       }
     ];
     persistent = true;
     scrollActions = {
       brightness = true;
-      workspaces = true;
       volume = true;
+      workspaces = true;
     };
     showOnHover = true;
     status = {
@@ -157,9 +103,9 @@
       showBattery = true;
       showBluetooth = true;
       showKbLayout = false;
+      showLockStatus = true;
       showMicrophone = false;
       showNetwork = true;
-      showLockStatus = true;
     };
     tray = {
       background = false;
@@ -177,150 +123,246 @@
       perMonitorWorkspaces = true;
       showWindows = true;
       shown = 5;
+      specialWorkspaceIcons = [
+        {
+          icon = "sports_esports";
+          name = "steam";
+        }
+      ];
     };
   };
-
   border = {
     rounding = 25;
     thickness = 10;
   };
-
   dashboard = {
-    enabled = true;
     dragThreshold = 50;
+    enabled = true;
     mediaUpdateInterval = 500;
     showOnHover = true;
   };
-
+  general = {
+    apps = {
+      audio = ["pavucontrol"];
+      explorer = [dots.hypr.variables.fileExplorer];
+      playback = ["mpv"];
+      terminal = [dots.hypr.variables.terminal];
+    };
+    battery = {
+      criticalLevel = 3;
+      warnLevels = [
+        {
+          icon = "battery_android_frame_2";
+          level = 20;
+          message = "You might want to plug in a charger";
+          title = "Low battery";
+        }
+        {
+          icon = "battery_android_frame_1";
+          level = 10;
+          message = "You should probably plug in a charger <b>now</b>";
+          title = "Did you see the previous message?";
+        }
+        {
+          critical = true;
+          icon = "battery_android_alert";
+          level = 5;
+          message = "PLUG THE CHARGER RIGHT NOW!!";
+          title = "Critical battery level";
+        }
+      ];
+    };
+    idle = {
+      inhibitWhenAudio = true;
+      lockBeforeSleep = true;
+      timeouts = [
+        {
+          idleAction = "lock";
+          timeout = 180;
+        }
+        {
+          idleAction = "dpms off";
+          returnAction = "dpms on";
+          timeout = 300;
+        }
+        {
+          idleAction = [
+            "systemctl"
+            "suspend-then-hibernate"
+          ];
+          timeout = 600;
+        }
+      ];
+    };
+  };
   launcher = {
     actionPrefix = ">";
     actions = [
       {
-        name = "Calculator";
-        icon = "calculate";
+        command = [
+          "autocomplete"
+          "calc"
+        ];
+        dangerous = false;
         description = "Do simple math equations (powered by Qalc)";
-        command = ["autocomplete" "calc"];
         enabled = true;
-        dangerous = false;
+        icon = "calculate";
+        name = "Calculator";
       }
       {
-        name = "Scheme";
-        icon = "palette";
+        command = [
+          "autocomplete"
+          "scheme"
+        ];
+        dangerous = false;
         description = "Change the current colour scheme";
-        command = ["autocomplete" "scheme"];
         enabled = true;
-        dangerous = false;
+        icon = "palette";
+        name = "Scheme";
       }
       {
-        name = "Wallpaper";
-        icon = "image";
+        command = [
+          "autocomplete"
+          "wallpaper"
+        ];
+        dangerous = false;
         description = "Change the current wallpaper";
-        command = ["autocomplete" "wallpaper"];
         enabled = true;
-        dangerous = false;
+        icon = "image";
+        name = "Wallpaper";
       }
       {
-        name = "Variant";
-        icon = "colors";
+        command = [
+          "autocomplete"
+          "variant"
+        ];
+        dangerous = false;
         description = "Change the current scheme variant";
-        command = ["autocomplete" "variant"];
         enabled = true;
-        dangerous = false;
+        icon = "colors";
+        name = "Variant";
       }
       {
-        name = "Transparency";
-        icon = "opacity";
+        command = [
+          "autocomplete"
+          "transparency"
+        ];
+        dangerous = false;
         description = "Change shell transparency";
-        command = ["autocomplete" "transparency"];
         enabled = false;
-        dangerous = false;
+        icon = "opacity";
+        name = "Transparency";
       }
       {
-        name = "Random";
-        icon = "casino";
+        command = [
+          "${dots.caelestia.cli.package}/bin/caelestia"
+          "wallpaper"
+          "-r"
+        ];
+        dangerous = false;
         description = "Switch to a random wallpaper";
-        command = ["${config.programs.caelestia.cli.package}/bin/caelestia" "wallpaper" "-r"];
         enabled = true;
-        dangerous = false;
+        icon = "casino";
+        name = "Random";
       }
       {
-        name = "Light";
-        icon = "light_mode";
+        command = [
+          "setMode"
+          "light"
+        ];
+        dangerous = false;
         description = "Change the scheme to light mode";
-        command = ["setMode" "light"];
         enabled = true;
-        dangerous = false;
+        icon = "light_mode";
+        name = "Light";
       }
       {
-        name = "Dark";
-        icon = "dark_mode";
+        command = [
+          "setMode"
+          "dark"
+        ];
+        dangerous = false;
         description = "Change the scheme to dark mode";
-        command = ["setMode" "dark"];
         enabled = true;
-        dangerous = false;
+        icon = "dark_mode";
+        name = "Dark";
       }
       {
-        name = "Shutdown";
-        icon = "power_settings_new";
+        command = [
+          "systemctl"
+          "poweroff"
+        ];
+        dangerous = true;
         description = "Shutdown the system";
-        command = ["systemctl" "poweroff"];
         enabled = true;
-        dangerous = true;
+        icon = "power_settings_new";
+        name = "Shutdown";
       }
       {
-        name = "Reboot";
-        icon = "cached";
+        command = [
+          "systemctl"
+          "reboot"
+        ];
+        dangerous = true;
         description = "Reboot the system";
-        command = ["systemctl" "reboot"];
         enabled = true;
-        dangerous = true;
+        icon = "cached";
+        name = "Reboot";
       }
       {
-        name = "Logout";
-        icon = "exit_to_app";
+        command = [
+          "loginctl"
+          "terminate-user"
+          ""
+        ];
+        dangerous = true;
         description = "Log out of the current session";
-        command = ["loginctl" "terminate-user" ""];
         enabled = true;
-        dangerous = true;
+        icon = "exit_to_app";
+        name = "Logout";
       }
       {
-        name = "Lock";
-        icon = "lock";
+        command = [
+          "loginctl"
+          "lock-session"
+        ];
+        dangerous = false;
         description = "Lock the current session";
-        command = ["loginctl" "lock-session"];
         enabled = true;
-        dangerous = false;
+        icon = "lock";
+        name = "Lock";
       }
       {
-        name = "Sleep";
-        icon = "bedtime";
-        description = "Suspend then hibernate";
-        command = ["systemctl" "suspend-then-hibernate"];
-        enabled = true;
+        command = [
+          "systemctl"
+          "suspend-then-hibernate"
+        ];
         dangerous = false;
+        description = "Suspend then hibernate";
+        enabled = true;
+        icon = "bedtime";
+        name = "Sleep";
       }
     ];
     dragThreshold = 50;
-    vimKeybinds = false;
     enableDangerousActions = false;
+    hiddenApps = [];
     maxShown = 7;
     maxWallpapers = 9;
+    showOnHover = false;
     specialPrefix = "@";
     useFuzzy = {
-      apps = false;
       actions = false;
+      apps = false;
       schemes = false;
       variants = false;
       wallpapers = false;
     };
-    showOnHover = false;
-    hiddenApps = [];
+    vimKeybinds = false;
   };
-
   lock = {
     recolourLogo = false;
   };
-
   notifs = {
     actionOnClick = false;
     clearThreshold = 0.3;
@@ -328,54 +370,62 @@
     expandThreshold = 20;
     expire = false;
   };
-
   osd = {
-    enabled = true;
     enableBrightness = true;
     enableMicrophone = false;
+    enabled = true;
     hideDelay = 2000;
   };
-
   paths = {
     mediaGif = "root:/assets/bongocat.gif";
     sessionGif = "root:/assets/kurukuru.gif";
     wallpaperDir = "~/Pictures/Wallpapers";
   };
-
   services = {
     audioIncrement = 0.1;
     defaultPlayer = "Spotify";
     gpuType = "";
+    maxVolume = 1;
     playerAliases = [
       {
         from = "com.github.th_ch.youtube_music";
         to = "YT Music";
       }
     ];
-    weatherLocation = "";
+    smartScheme = true;
     useFahrenheit = false;
     useTwelveHourClock = false;
-    smartScheme = true;
     visualiserBars = 45;
+    weatherLocation = "";
   };
-
   session = {
+    commands = {
+      hibernate = [
+        "systemctl"
+        "hibernate"
+      ];
+      logout = [
+        "loginctl"
+        "terminate-user"
+        ""
+      ];
+      reboot = [
+        "systemctl"
+        "reboot"
+      ];
+      shutdown = [
+        "systemctl"
+        "poweroff"
+      ];
+    };
     dragThreshold = 30;
     enabled = true;
     vimKeybinds = false;
-    commands = {
-      logout = ["loginctl" "terminate-user" ""];
-      shutdown = ["systemctl" "poweroff"];
-      hibernate = ["systemctl" "hibernate"];
-      reboot = ["systemctl" "reboot"];
-    };
   };
-
   sidebar = {
     dragThreshold = 80;
     enabled = true;
   };
-
   utilities = {
     enabled = true;
     maxToasts = 4;
@@ -387,7 +437,20 @@
       configLoaded = true;
       dndChanged = true;
       gameModeChanged = true;
+      kbLayoutChanged = true;
+      nowPlaying = false;
       numLockChanged = true;
+      vpnChanged = true;
+    };
+    vpn = {
+      enabled = false;
+      provider = [
+        {
+          displayName = "Wireguard (Your VPN)";
+          interface = "your-connection-name";
+          name = "wireguard";
+        }
+      ];
     };
   };
 }
