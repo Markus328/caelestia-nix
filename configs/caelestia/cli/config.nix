@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  dots,
   use,
   ...
 }: {
@@ -10,11 +11,11 @@
 
   theme = {
     enableTerm = true;
-    enableHypr = true;
+    enableHypr = dots.hypr.enable;
     enableDiscord = true;
     enableSpicetify = true;
     enableFuzzel = true;
-    enableBtop = true;
+    enableBtop = dots.btop.enable;
     enableGtk = true;
     enableQt = true;
   };

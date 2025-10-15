@@ -14,6 +14,7 @@ in {
       "hypr"
       ["caelestia" "cli"]
       ["caelestia" "shell"]
+      "btop"
     ]);
 
   options = with lib; {
