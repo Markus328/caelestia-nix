@@ -2,6 +2,7 @@
   config,
   mod,
   dots,
+  use,
   ...
 }: {
   appearance = {
@@ -144,9 +145,9 @@
   general = {
     apps = {
       audio = ["pavucontrol"];
-      explorer = [dots.hypr.variables.fileExplorer];
+      explorer = [(use "hypr.variables" "fileExplorer" "thunar")];
       playback = ["mpv"];
-      terminal = [dots.hypr.variables.terminal];
+      terminal = [(use "hypr.variables" "terminal" "foot")];
     };
     battery = {
       criticalLevel = 3;
@@ -382,7 +383,7 @@
     wallpaperDir = "~/Pictures/Wallpapers";
   };
   services = {
-    audioIncrement = 0.1;
+    audioIncrement = (use "hypr.variables" "volumeStep" 10.0) / 100.0;
     defaultPlayer = "Spotify";
     gpuType = "";
     maxVolume = 1;

@@ -1,7 +1,7 @@
 {
   config,
   pkgs,
-  dots,
+  use,
   ...
 }: {
   record = {
@@ -62,7 +62,7 @@
             workspace = {name = "special:sysmon";};
           }
         ];
-        command = ["${dots.hypr.variables.terminal}" "-a" "btop" "-T" "btop" "fish" "-C" "exec btop"];
+        command = ["${use "hypr.variables" "terminal" "foot"}" "-a" "btop" "-T" "btop" "fish" "-C" "exec btop"];
       };
     };
 

@@ -24,11 +24,25 @@
         module_set =
           if module != null
           then module {inherit config lib pkgs mod path mods;}
-          else import mod_path {inherit config lib pkgs mod path mods dots;};
-        default =
+          else import mod_path {inherit config lib pkgs mod path mods dots use;};
+        default = let
+          args = {inherit config lib mod pkgs dots use;};
+        in
           if cfg != null
-          then cfg {inherit config lib mod pkgs;}
-          else import (lib.path.append mod_path "config.nix") {inherit config lib mod pkgs dots;};
+          then cfg args
+          else import (lib.path.append mod_path "config.nix") args;
+
+        use = modulePath: settingPath: fallback: let
+          module = lib.getAttrFromPath (lib.splitString "." modulePath) dots;
+          sett =
+            if module ? enable
+            then module.settings
+            else module;
+          opt = lib.getAttrFromPath (lib.splitString "." settingPath) sett;
+        in
+          if module._active
+          then opt
+          else fallback;
       in {
         imports = module_set.imports or [];
         options.programs.caelestia-dots = lib.recursiveUpdate (lib.setAttrByPath path (with lib;

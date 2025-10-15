@@ -1,9 +1,12 @@
 {
   config,
+  lib,
   pkgs,
+  dots,
+  use,
   ...
 }: let
-  caelestia = "${config.programs.caelestia.cli.package}/bin/caelestia";
+  caelestia = "${dots.caelestia.cli.package}/bin/caelestia";
   app2unit = "${pkgs.app2unit}/bin/app2unit";
   hyprpicker = "${pkgs.hyprpicker}/bin/hyprpicker";
   ydotool = "${pkgs.ydotool}/bin/ydotool";
@@ -180,7 +183,7 @@ in {
   ];
 
   bindle = [
-    ", XF86AudioRaiseVolume, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ $volumeStep%+"
+    ", XF86AudioRaiseVolume, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume -l ${lib.strings.floatToString (use "caelestia.shell" "services.maxVolume" 1)} @DEFAULT_AUDIO_SINK@ $volumeStep%+"
     ", XF86AudioLowerVolume, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ 0; wpctl set-volume @DEFAULT_AUDIO_SINK@ $volumeStep%-"
   ];
 }
