@@ -15,6 +15,7 @@ in {
       ["caelestia" "cli"]
       ["caelestia" "shell"]
       "btop"
+      "foot"
     ]);
 
   options = with lib; {

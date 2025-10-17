@@ -36,11 +36,11 @@
           module = lib.getAttrFromPath (lib.splitString "." modulePath) dots;
           sett =
             if module ? enable
-            then module.settings
+            then module.settings or module
             else module;
           opt = lib.getAttrFromPath (lib.splitString "." settingPath) sett;
         in
-          if module._active
+          if module._active or true
           then opt
           else fallback;
       in {

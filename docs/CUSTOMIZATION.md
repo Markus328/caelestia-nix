@@ -26,6 +26,7 @@ Here there's a list of default configs for each module, use them to guide you th
   - [shell](../configs/caelestia/shell/config.nix)
   - [cli](../configs/caelestia/cli/config.nix)
 - [btop](../configs/btop/config.nix)
+- [foot](../configs/foot/config.nix)
 
 ## Modules and submodules
 
