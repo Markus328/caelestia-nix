@@ -42,7 +42,7 @@
 
   # Misc
   volumeStep = 10; # In percent
-  cursorTheme = "sweet-cursors";
+  cursorTheme = "Sweet-cursors";
   cursorSize = 24;
 
   # Keybinds

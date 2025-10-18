@@ -63,12 +63,16 @@ in {
       };
       cliphist.enable = true;
     };
-    dconf = {
-      settings = {
-        "org/gnome/desktop/interface" = {
-          cursor-theme = mod.variables.cursorTheme;
-          cursor-size = mod.variables.cursorSize;
-        };
+
+    gtk = {
+      enable = true;
+      cursorTheme = {
+        name = mod.variables.cursorTheme;
+        size = mod.variables.cursorSize;
+        package =
+          if mod.variables.cursorTheme == "Sweet-cursors"
+          then pkgs.sweet-nova
+          else null;
       };
     };
   };
