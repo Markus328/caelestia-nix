@@ -215,6 +215,18 @@ For more info about infusion, look at the [infuse.nix](https://codeberg.org/amjo
         ]
         ++ (lib.drop 3 _); # Insert new action at third position to the launcher
     };
+    fish = {
+      # All enabled by default
+      integrations = {
+        starship = false;
+        # zoxide = true;
+        # eza = true;
+        # caelestiaColors = true;
+      };
+      settings = {
+        generateCompletions = false;
+      };
+    };
   };
 ```
 
