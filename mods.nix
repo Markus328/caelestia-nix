@@ -45,7 +45,7 @@
           else fallback;
       in {
         imports = module_set.imports or [];
-        options.programs.caelestia-dots = lib.recursiveUpdate (lib.setAttrByPath path (with lib;
+        options.programs.caelestia-dots = lib.setAttrByPath path (lib.recursiveUpdate (with lib;
           if raw
           then
             (mkOption {
@@ -84,7 +84,7 @@
               description = "Caelestia ${mod_name} module extra config";
               default = "";
             };
-          })) (module_set.options or {});
+          }) (module_set.options or {}));
         config = lib.mkIf ((parent._active or parent.enable) && (raw || mod.enable)) (lib.mkMerge [
           {programs.caelestia-dots = lib.setAttrByPath path {_active = lib.mkDefault true;};}
           (module_set.config or {})

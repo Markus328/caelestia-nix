@@ -16,6 +16,7 @@ in {
       ["caelestia" "shell"]
       "btop"
       "foot"
+      "fish"
     ]);
 
   options = with lib; {
