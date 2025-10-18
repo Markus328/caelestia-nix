@@ -28,7 +28,7 @@
     "size 50% 60%, class:nwg-look"
     "center 1, class:nwg-look"
     "workspace special:sysmon, class:btop"
-    "workspace special:music, class:feishin|Spotify|Supersonic"
+    "workspace special:music, class:feishin|Spotify|Supersonic|Cider"
     "workspace special:music, initialTitle:Spotify( Free)?"
     "workspace special:communication, class:discord|equibop|vesktop|whatsapp"
     "workspace special:todo, class:Todoist"
