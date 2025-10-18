@@ -7,12 +7,7 @@
       rev = "c8fb7397039215e1444c835e36a0da7dc3c743f8";
     }) {
       inherit lib;
-      sugars = let
-        ifList = infusion: target: f:
-          if lib.isList infusion && lib.isList target
-          then f infusion target
-          else throw "${infusion} or ${target} is of type list";
-      in
+      sugars =
         _infuse.v1.default-sugars
         ++ lib.attrsToList {
           __remove = path: remove: target: lib.filter (tg: !lib.any (r: lib.hasPrefix r tg) remove) target; # Remove all strings starting with any remove list strings.
