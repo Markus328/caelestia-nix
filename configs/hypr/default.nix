@@ -64,16 +64,15 @@ in {
       cliphist.enable = true;
     };
 
-    gtk = {
+    home.pointerCursor = {
       enable = true;
-      cursorTheme = {
-        name = mod.variables.cursorTheme;
-        size = mod.variables.cursorSize;
-        package =
-          if mod.variables.cursorTheme == "Sweet-cursors"
-          then pkgs.sweet-nova
-          else null;
-      };
+      name = mod.variables.cursorTheme;
+      size = mod.variables.cursorSize;
+      gtk.enable = true;
+      package =
+        if mod.variables.cursorTheme == "Sweet-cursors"
+        then pkgs.sweet-nova
+        else null;
     };
   };
 }
