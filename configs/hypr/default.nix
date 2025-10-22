@@ -52,6 +52,7 @@ in {
       enable = true;
       sourceFirst = false;
       settings = mod.settings;
+      systemd.variables = with lib; map (env: head (splitString "," env)) mod.hyprland.env.settings.env;
     };
 
     services = {
