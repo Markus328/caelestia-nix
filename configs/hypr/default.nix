@@ -71,9 +71,8 @@ in {
       size = mod.variables.cursorSize;
       gtk.enable = true;
       package =
-        if mod.variables.cursorTheme == "Sweet-cursors"
-        then pkgs.sweet-nova
-        else null;
+        lib.mkIf (mod.variables.cursorTheme == "Sweet-cursors")
+        pkgs.sweet-nova;
     };
   };
 }
