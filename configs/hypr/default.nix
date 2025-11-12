@@ -70,7 +70,9 @@ in {
       name = mod.variables.cursorTheme;
       size = mod.variables.cursorSize;
       gtk.enable = true;
-      # User needs to add package manually
+      package =
+        lib.mkIf (mod.variables.cursorTheme == "Sweet-cursors")
+        pkgs.sweet-nova;
     };
   };
 }
