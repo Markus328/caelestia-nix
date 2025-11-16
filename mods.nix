@@ -47,7 +47,14 @@
 
         # the set of the module, after passing all the module arguments. Imports from `mod_dir` if `module` is null
         module_set = let
-          module_args = {inherit config lib pkgs mod path mods dots use;};
+          clean_mod =
+            if raw
+            then builtins.removeAttrs mod ["_active"] # remove _active for raw modules args
+            else mod;
+          module_args = {
+            inherit config lib pkgs path mods dots use;
+            mod = clean_mod;
+          };
         in
           if module != null
           then module module_args
@@ -91,7 +98,7 @@
               default = true;
               description = "Enable Caelestia ${mod_name} module";
             };
-            _active = mkEnableOption "Set active status of Caelestia ${mod_name} module";
+            _active = mkEnableOption "Active status of Caelestia ${mod_name} module";
             settings = mkInfusableOption default "Caelestia ${mod_name} module settings";
             extraConfig = mkOption {
               type = types.str;
@@ -100,11 +107,12 @@
             };
           }) (module_set.options or {}));
 
-        # checks module and parent enabled states, sets active state and imports modules_set configs conditionally.
-        config = lib.mkIf ((parent._active or parent.enable) && (raw || mod.enable)) (lib.mkMerge [
-          {programs.caelestia-dots = lib.setAttrByPath path {_active = lib.mkDefault true;};}
-          (module_set.config or {})
-        ]);
+        config = lib.mkMerge [
+          # _active default value is true if the module is enabled and its parent is also active. The value can be overriden by user.
+          # note that raw modules are always enabled, it's only possible to change its active state.
+          {programs.caelestia-dots = lib.setAttrByPath path {_active = lib.mkDefault ((parent._active or parent.enable) && (raw || mod.enable));};}
+          (lib.mkIf mod._active (module_set.config or {}))
+        ];
       }
     );
 
