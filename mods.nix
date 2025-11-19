@@ -1,33 +1,12 @@
 {lib}: let
-  infuse = import ./infuse.nix {inherit lib;};
-  mods = rec {
-    # makes an option that values can be easily overriden
-    mkInfusableOption = default: description:
-      with lib;
-        mkOption {
-          type = with types; let
-            valueType = nullOr (oneOf [
-              bool
-              int
-              float
-              str
-              types.path
-              (functionTo valueType)
-              (attrsOf valueType)
-              (listOf valueType)
-            ]);
-            infusableValue = oneOf [(attrsOf valueType) (functionTo valueType) (listOf infusableValue)];
-          in
-            infusableValue;
-          inherit default description;
-          apply = userSettings: infuse default userSettings;
-        };
+  opts = import ./options.nix {inherit lib;};
 
+  mods = rec {
     _make_module = {
       parentPath,
       subPath,
       root ? ./configs,
-      raw ? false,
+      type ? "normal",
       module ? null,
       cfg ? null,
     }: (
@@ -35,24 +14,28 @@
         config,
         lib,
         pkgs,
+        options,
         ...
       }: let
         dots = config.programs.caelestia-dots;
-        parent = lib.getAttrFromPath parentPath dots; # parent mod, used to control active state
-        path = parentPath ++ subPath; # mod path, useful for passing to nested _make_module
-        mod = lib.getAttrFromPath path dots; # the actual mod config
+        parent = lib.getAttrFromPath parentPath dots; # parent module, used to control active state
+        path = parentPath ++ subPath; # module path, useful for passing to nested _make_module
+        mod = lib.getAttrFromPath path dots; # the actual module config
+
+        isNormalMod = !(type == "raw" || type == "pass");
 
         mod_name = lib.showOption path;
         mod_dir = lib.path.append root (lib.path.subpath.join path); # directory where the module is stored
 
         # the set of the module, after passing all the module arguments. Imports from `mod_dir` if `module` is null
         module_set = let
-          clean_mod =
-            if raw
-            then builtins.removeAttrs mod ["_active"] # remove _active for raw modules args
-            else mod;
+          clean_mod = builtins.removeAttrs mod (
+            if !isNormalMod
+            then ["_meta"] # remove _meta from non-normal modules to avoid mixing metadata with configs.
+            else []
+          );
           module_args = {
-            inherit config lib pkgs path mods dots use;
+            inherit config lib pkgs options path mods dots use;
             mod = clean_mod;
           };
         in
@@ -62,57 +45,40 @@
 
         # the default config of module, imported directly from `mod_path` / config.nix if `cfg` is null
         default = let
-          cfg_args = {inherit config lib pkgs mod dots use;};
+          cfg_args = {inherit config lib pkgs options mod dots use;};
         in
           if cfg != null
           then cfg cfg_args
           else import (lib.path.append mod_dir "config.nix") cfg_args;
 
         # function that takes any other module's option or use a fallback if that module is not active
-        # First two argument are purely module names, makes syntax a bit cleaner
+        # first two arguments are purely module names, makes syntax a bit cleaner
         use = modulePath: settingPath: fallback: let
           module = lib.getAttrFromPath (lib.splitString "." modulePath) dots;
           sett =
-            if module ? enable
-            then module.settings or module
+            if module._meta.type == "normal"
+            then module.settings
             else module;
           opt = lib.getAttrFromPath (lib.splitString "." settingPath) sett;
         in
-          if module._active or true
+          if module._meta.active
           then opt
           else fallback;
       in {
         imports = module_set.imports or [];
 
-        # creates default options for each module
-        options.programs.caelestia-dots = lib.setAttrByPath path (lib.recursiveUpdate (with lib;
-          if raw
-          then
-            # raw modules are just infusable values, overrides goes in the toplevel
-            mkInfusableOption default "Caelestia ${mod_name} module"
-          else {
-            # normal modules comes with enable, settings and extraConfig. Overrides goes in settings
-            # other options can be added in module_set
-            enable = mkOption {
-              type = types.bool;
-              default = true;
-              description = "Enable Caelestia ${mod_name} module";
-            };
-            _active = mkEnableOption "Active status of Caelestia ${mod_name} module";
-            settings = mkInfusableOption default "Caelestia ${mod_name} module settings";
-            extraConfig = mkOption {
-              type = types.str;
-              description = "Caelestia ${mod_name} module extra config";
-              default = "";
-            };
-          }) (module_set.options or {}));
+        # creates options for the desired type of moudule
+        options.programs.caelestia-dots = lib.setAttrByPath path (lib.recursiveUpdate (
+          opts.options.${type} parent default mod_name
+        ) (module_set.options or {}));
 
-        config = lib.mkMerge [
-          # _active default value is true if the module is enabled and its parent is also active. The value can be overriden by user.
-          # note that raw modules are always enabled, it's only possible to change its active state.
-          {programs.caelestia-dots = lib.setAttrByPath path {_active = lib.mkDefault ((parent._active or parent.enable) && (raw || mod.enable));};}
-          (lib.mkIf mod._active (module_set.config or {}))
-        ];
+        config = with lib;
+          mkMerge [
+            # _meta.active default value is true if the module is enabled and its parent is active. The value can be overriden by user.
+            # non-normal modules set their own active state default in options.nix
+            {programs.caelestia-dots = setAttrByPath path {_meta.active = mkIf isNormalMod (mkDefault ((parent._meta.active or parent.enable) && mod.enable));};}
+            (mkIf mod._meta.active (module_set.config or {}))
+          ];
       }
     );
 
@@ -120,10 +86,14 @@
     mkRawMod = parentPath: subPath:
       _make_module {
         inherit parentPath subPath;
-        raw = true;
+        type = "raw";
       };
 
-    mkPassMod = from: to: lib.mkAliasOptionModule (["programs" "caelestia-dots"] ++ from) to;
+    mkPassMod = parentPath: subPath:
+      _make_module {
+        inherit parentPath subPath;
+        type = "pass";
+      };
 
     mkMultipleMods = {
       args ? {},

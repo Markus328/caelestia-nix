@@ -1,6 +1,4 @@
 {...}: {
-  # settings that aliases to programs.fish
-
   generateCompletions = true;
   shellAbbrs = {
     lg = "lazygit";

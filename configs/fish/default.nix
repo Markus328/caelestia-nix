@@ -26,7 +26,7 @@ in {
       eza = mkFishIntegrationOption "eza (better ls)";
 
       # By default, its enabled, according to caelestia.cli defaults
-      caelestiaColors = mkFishIntegrationOption "caelestia colors" // {default = use "caelestia.cli" "theme.enableTerm" false;};
+      caelestiaColors = mkFishIntegrationOption "caelestia colors" // {default = use "caelestia.cli" "settings.theme.enableTerm" false;};
     };
   };
   config = {

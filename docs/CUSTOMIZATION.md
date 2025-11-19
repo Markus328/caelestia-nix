@@ -41,15 +41,15 @@ Each submodule, comes with at least a `enable` and `settings` option, except for
     # hypr.hyprland.keybinds.enable = false; # disabling a parent module will disable all child modules.
     # caelestia.shell.enable = true; # don't need this, all modules are enabled by default.
 
-    # use _active instead of enable to know if a module is actually enabled (this is probably what you want)
-    caelestia.cli.enable = config.programs.caelestia-dots.caelestia.shell._active;
+    # use _meta.active instead of enable to know if a module is actually enabled (this is probably what you want)
+    caelestia.cli.enable = config.programs.caelestia-dots.caelestia.shell._meta.active;
   };
 ```
 
 As you could see, you can disable any module easily, with the correct handling of its submodules as well. Note that, you can explicitly enable a child module and _disable_ its parent module.
-The child is enabled but **is not active** due to its parent being disabled. Because of this, you probably want to test against `_active` to know if a module is actually enabled or not.
+The child is enabled but **is not active** due to its parent being disabled. Because of this, you probably want to test against `_meta.active` to know if a module is actually enabled or not.
 
-You can, though, set the `_active` to true, ignoring the parent enabled/disabled state.
+You can, though, set the `_meta.active` to true, ignoring the parent enabled/disabled state.
 
 ## Overriding defaults
 

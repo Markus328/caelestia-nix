@@ -10,10 +10,15 @@ in {
     [
       inputs.caelestia-shell.homeManagerModules.default
     ]
+    ++ (mkMultipleMods {
+        parent = [];
+        args.type = "pass";
+      } [
+        ["caelestia" "cli"]
+        ["caelestia" "shell"]
+      ])
     ++ (mkMultipleMods {parent = [];} [
       "hypr"
-      ["caelestia" "cli"]
-      ["caelestia" "shell"]
       "btop"
       "foot"
       "fish"
