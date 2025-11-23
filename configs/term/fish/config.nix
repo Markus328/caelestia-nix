@@ -1,4 +1,8 @@
-{...}: {
+{use, ...}: {
+  # Raw attrs mapped to programs.fish
+
+  enable = true;
+
   generateCompletions = true;
   shellAbbrs = {
     lg = "lazygit";
@@ -18,6 +22,14 @@
     gco = "git checkout";
     gsh = "git show";
   };
+
+  interactiveShellInit = ''
+    ${
+      if (use "caelestia.cli" "settings.theme.enableTerm" false)
+      then "cat ~/.local/state/caelestia/sequences.txt 2> /dev/null"
+      else ""
+    }
+  '';
   shellInitLast = ''
     # For jumping between prompts in foot terminal
         function mark_prompt_start --on-event fish_prompt

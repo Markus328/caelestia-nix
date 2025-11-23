@@ -23,16 +23,19 @@ Here there's a list of default configs for each module, use them to guide you th
     - [keybinds](../configs/hypr/hyprland/keybinds.nix)
   - [scheme](../configs/hypr/scheme/config.nix) (raw)
 - caelestia
-  - [shell](../configs/caelestia/shell/config.nix)
-  - [cli](../configs/caelestia/cli/config.nix)
+  - [shell](../configs/caelestia/shell/config.nix) (pass)
+  - [cli](../configs/caelestia/cli/config.nix) (pass)
 - [btop](../configs/btop/config.nix)
 - [foot](../configs/foot/config.nix)
-- [fish](../configs/fish/config.nix)
+- term
+  - [fish](../configs/term/fish/config.nix) (pass)
+  - [starship](../configs/term/starship/config.nix) (pass)
+  - [eza](../configs/term/eza/config.nix) (pass)
 
 ## Modules and submodules
 
-This module, come with many submodules (such as caelestia.shell, caelestia.cli and hypr) that can also have other submodules nested.
-Each submodule, comes with at least a `enable` and `settings` option, except for some "raw modules" (like `hypr.variables`).
+This module, come with many submodules (such as caelestia.shell, caelestia.cli and hypr), they can be called modules and modules inside others are called submodules.
+Every module, in general, comes with `enabled` and `settings` options, except for non-normal modules.
 
 ```nix
   programs.caelestia-dots = {
@@ -51,13 +54,46 @@ The child is enabled but **is not active** due to its parent being disabled. Bec
 
 You can, though, set the `_meta.active` to true, ignoring the parent enabled/disabled state.
 
+### Types of modules
+
+There are some type of modules beyond normal modules, such as raw or pass modules. Non-normal modules are less used and they exist to cover specific stuffs.
+
+Here, are the complete list of module types:
+
+- Normal modules (enable, settings): All config options goes to settings.
+- Raw modules (\*): Doesn't have any options, only write configs directly at its toplevel. Cannot have nested submodules
+- Pass modules (enable, \*): Just like a raw module, but with an enable option. Cannot have nested submodules
+
+```nix
+# normal modules
+programs.caelestia-dots.module = {
+  enable = true;
+  settings = {
+    # ...
+  };
+};
+# raw moudules
+programs.caelestia-dots.module2 = {
+  # ...
+};
+# pass modules
+programs.caelestia-dots.module3 = {
+  enable = true;
+  # ...
+};
+```
+
+All modules are normal unless otherwise indicated. Raw modules are generally used when makes no much sense to disable them, and for a clear and less burocratic configuration. Pass modules are used to pass defaults to any home-manager or even NixOS module, since they are half raw, any module can be configured through them. Having an enable option makes the module a litte more like a normal module.
+
+Regardless the type, all modules have a restricted `_meta.active, _meta.type` options, even pure raw modules. Using them, you have a standard interface to interact with modules.
+
 ## Overriding defaults
 
 Overriding the defaults it's the whole purprose of this module, you and I know well the **caelestia-dots** are great, but you will need some tweak you want or not.
 
 <br>
 
-To override the default settings, you use the `settings` attribute, for each module. That means if you have a module, with nested child submodules, the module and every child can be configured individually.
+To override the default settings, you use the `settings` attribute, or the respective location for each module type. That means if you have a module, with nested child submodules, the module and every child can be configured individually.
 
 ```nix
   programs.caelestia-dots = {
@@ -215,17 +251,11 @@ For more info about infusion, look at the [infuse.nix](https://codeberg.org/amjo
         ]
         ++ (lib.drop 3 _); # Insert new action at third position to the launcher
     };
-    fish = {
-      # All enabled by default
-      integrations = {
-        starship = false;
-        # zoxide = true;
-        # eza = true;
-        # caelestiaColors = true;
-      };
-      settings = {
+    term = {
+      fish = {
         generateCompletions = false;
       };
+      starship.enable = false;
     };
   };
 ```

@@ -16,12 +16,14 @@ in {
       } [
         ["caelestia" "cli"]
         ["caelestia" "shell"]
+        ["term" "fish"]
+        ["term" "starship"]
+        ["term" "eza"]
       ])
     ++ (mkMultipleMods {parent = [];} [
       "hypr"
       "btop"
       "foot"
-      "fish"
     ]);
 
   options = with lib; {
