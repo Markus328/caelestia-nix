@@ -148,7 +148,7 @@ Here is a list of most useful sugars (from infuse.nix + some extensions added by
 - `__remove` (extension):
   remove a string from a list of strings, if the string starts with (lib.hasPrefix) one of the strings of the argument list. Argument is a list of strings.
 - `__replace` (extension):
-  replace any characters in any string of a list of strings, the argument is a list of replacement lists. A replacement list is a list of strings, the first ones will be matched and substitued by the last one.
+  replace any characters from a string or all strings of a list of strings, the argument is a list of replacement lists. A replacement list is a list of strings, the first ones will be matched and substitued by the last one.
 
 <br>
 

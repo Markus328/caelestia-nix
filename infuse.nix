@@ -4,16 +4,19 @@
     ++ lib.attrsToList {
       __remove = path: remove: target: lib.filter (tg: !lib.any (r: lib.hasPrefix r tg) remove) target; # Remove all strings starting with any remove list strings.
       __replace = path: replace: target:
-      # Replace all strings from replacement list to the last one in each list.
+      # Replace all strings in a string or a list of strings.
         with lib.lists; let
           froms = flatten (map (frs: dropEnd 1 frs) replace);
           tos = flatten (map (ts: replicate (builtins.length ts - 1) (last ts)) replace);
         in
-          map (
-            tg:
-              builtins.replaceStrings froms tos tg
-          )
-          target;
+          if isList target
+          then
+            (map (
+                tg:
+                  builtins.replaceStrings froms tos tg
+              )
+              target)
+          else builtins.replaceStrings froms tos target;
     };
   _infuse =
     import
