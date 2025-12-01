@@ -1,8 +1,9 @@
 {
   config,
+  pkgs,
   options,
   dots,
-  use,
+  ifActive,
   ...
 }: {
   package = options.programs.caelestia.cli.package.default;
@@ -55,9 +56,15 @@
         };
       };
 
-      sysmon = {
+      sysmon = let
+        enable = dots.btop._meta.active;
+        foot = ifActive "foot" "foot" "${pkgs.foot}/bin/foot";
+        fish = ifActive "term.fish" "fish" "${pkgs.fish}/bin/fish";
+      in {
+        # sysmon will only work with btop enabled
+        # if you wish to use other terminal or shell, override the command.
         btop = {
-          enable = true;
+          inherit enable;
           match = [
             {
               class = "btop";
@@ -65,7 +72,7 @@
               workspace = {name = "special:sysmon";};
             }
           ];
-          command = ["${use "hypr.variables" "terminal" "foot"}" "-a" "btop" "-T" "btop" "fish" "-C" "exec btop"];
+          command = [foot "-a" "btop" "-T" "btop" fish "-C" "exec btop"];
         };
       };
 

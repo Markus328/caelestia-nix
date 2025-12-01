@@ -35,7 +35,7 @@
             else []
           );
           module_args = {
-            inherit config lib pkgs options path mods dots use;
+            inherit config lib pkgs options path mods dots withMod use ifActive;
             mod = clean_mod;
           };
         in
@@ -45,25 +45,35 @@
 
         # the default config of module, imported directly from `mod_path` / config.nix if `cfg` is null
         default = let
-          cfg_args = {inherit config lib pkgs options mod dots use;};
+          cfg_args = {inherit config lib pkgs options mod dots withMod use ifActive;};
         in
           if cfg != null
           then cfg cfg_args
           else import (lib.path.append mod_dir "config.nix") cfg_args;
 
-        # function that takes any other module's option or use a fallback if that module is not active
-        # first two arguments are purely module names, makes syntax a bit cleaner
-        use = modulePath: settingPath: fallback: let
+        # apply expression on fun with module arg if is active
+        withMod = modulePath: fn: fallback: let
           module = lib.getAttrFromPath (lib.splitString "." modulePath) dots;
-          sett =
-            if module._meta.type == "normal"
-            then module.settings
-            else module;
-          opt = lib.getAttrFromPath (lib.splitString "." settingPath) sett;
+          active = module._meta.active;
         in
-          if module._meta.active
-          then opt
+          if active
+          then fn module
           else fallback;
+
+        # function that takes any other module's option or use a fallback if that module is not active
+        use = modulePath: settingPath: fallback:
+          withMod modulePath (module: let
+            sett =
+              if module._meta.type == "normal"
+              then module.settings
+              else module;
+            opt = lib.getAttrFromPath (lib.splitString "." settingPath) sett;
+          in
+            opt)
+          fallback;
+
+        # apply expression conditionally if module is active
+        ifActive = modulePath: _then: _else: withMod modulePath (_: _then) _else;
       in {
         imports = module_set.imports or [];
 
