@@ -10,20 +10,13 @@ in {
     [
       inputs.caelestia-shell.homeManagerModules.default
     ]
-    ++ (mkMultipleMods {
-        parent = [];
-        args.type = "pass";
-      } [
-        ["term" "fish"]
-        ["term" "starship"]
-        ["term" "eza"]
-      ])
-    ++ (mkMultipleMods {parent = [];} [
+    ++ (mkMultipleMods {parentPath = [];} [
       "hypr"
+      (mkNode [] "caelestia")
       "btop"
       "foot"
-    ])
-    ++ [(mkNode [] ["caelestia"])];
+      (mkNode [] "term")
+    ]);
 
   options = with lib; {
     programs.caelestia-dots = {

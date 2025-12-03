@@ -20,7 +20,7 @@
         args = rec {
           dots = config.programs.caelestia-dots;
           parent = lib.getAttrFromPath parentPath dots; # parent module, used to control active state
-          path = parentPath ++ subPath; # module path, useful for passing to nested _make_module
+          path = parentPath ++ (lib.toList subPath); # module path, useful for passing to nested _make_module
           mod = lib.getAttrFromPath path dots; # the actual module config
 
           mod_name = lib.showOption path;
@@ -96,17 +96,20 @@
         type = "node";
       };
 
-    mkMultipleMods = {
-      args ? {},
-      parent ? [],
-    }: paths:
-      map (path:
-        _make_module (args
-          // {
-            parentPath = parent;
-            subPath = lib.toList path;
-          }))
-      paths;
+    mkMultipleMods = default_args: args_list:
+      map (
+        arg:
+          if lib.isFunction arg
+          then arg
+          else
+            _make_module (default_args
+              // (
+                if lib.isAttrs arg
+                then arg
+                else {subPath = arg;}
+              ))
+      )
+      args_list;
   };
 in
   mods
