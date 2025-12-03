@@ -1,5 +1,5 @@
 {lib}: let
-  opts = import ./options.nix {inherit lib;};
+  types = import ./types.nix {inherit lib;};
 
   mods = rec {
     _make_module = {
@@ -17,79 +17,64 @@
         options,
         ...
       }: let
-        dots = config.programs.caelestia-dots;
-        parent = lib.getAttrFromPath parentPath dots; # parent module, used to control active state
-        path = parentPath ++ subPath; # module path, useful for passing to nested _make_module
-        mod = lib.getAttrFromPath path dots; # the actual module config
+        args = rec {
+          dots = config.programs.caelestia-dots;
+          parent = lib.getAttrFromPath parentPath dots; # parent module, used to control active state
+          path = parentPath ++ subPath; # module path, useful for passing to nested _make_module
+          mod = lib.getAttrFromPath path dots; # the actual module config
 
-        isNormalMod = !(type == "raw" || type == "pass");
+          mod_name = lib.showOption path;
+          mod_dir = lib.path.append root (lib.path.subpath.join path); # directory where the module is stored
 
-        mod_name = lib.showOption path;
-        mod_dir = lib.path.append root (lib.path.subpath.join path); # directory where the module is stored
-
-        # the set of the module, after passing all the module arguments. Imports from `mod_dir` if `module` is null
-        module_set = let
-          clean_mod = builtins.removeAttrs mod (
-            if !isNormalMod
-            then ["_meta"] # remove _meta from non-normal modules to avoid mixing metadata with configs.
-            else []
-          );
           module_args = {
-            inherit config lib pkgs options path mods dots withMod use ifActive;
-            mod = clean_mod;
+            inherit config lib pkgs mod options path mods dots withMod use ifActive;
           };
-        in
-          if module != null
-          then module module_args
-          else import mod_dir module_args;
+          module_fun =
+            if module != null
+            then module
+            else import mod_dir;
 
-        # the default config of module, imported directly from `mod_path` / config.nix if `cfg` is null
-        default = let
-          cfg_args = {inherit config lib pkgs options mod dots withMod use ifActive;};
-        in
-          if cfg != null
-          then cfg cfg_args
-          else import (lib.path.append mod_dir "config.nix") cfg_args;
+          # the set of the module, after passing all the module arguments. Imports from `mod_dir` if `module` is null
+          module_set = module_fun module_args;
 
-        # apply expression on fun with module arg if is active
-        withMod = modulePath: fn: fallback: let
-          module = lib.getAttrFromPath (lib.splitString "." modulePath) dots;
-          active = module._meta.active;
-        in
-          if active
-          then fn module
-          else fallback;
-
-        # function that takes any other module's option or use a fallback if that module is not active
-        use = modulePath: settingPath: fallback:
-          withMod modulePath (module: let
-            sett =
-              if module._meta.type == "normal"
-              then module.settings
-              else module;
-            opt = lib.getAttrFromPath (lib.splitString "." settingPath) sett;
+          # the default config of module, imported directly from `mod_path` / config.nix if `cfg` is null
+          default = let
+            cfg_args = {inherit config lib pkgs options mod dots withMod use ifActive;};
           in
-            opt)
-          fallback;
+            if cfg != null
+            then cfg cfg_args
+            else import (lib.path.append mod_dir "config.nix") cfg_args;
 
-        # apply expression conditionally if module is active
-        ifActive = modulePath: _then: _else: withMod modulePath (_: _then) _else;
-      in {
-        imports = module_set.imports or [];
+          # apply expression on fun with module arg if is active
+          withMod = modulePath: fn: fallback: let
+            module = lib.getAttrFromPath (lib.splitString "." modulePath) dots;
+            active = module._meta.active;
+          in
+            if active
+            then fn module
+            else fallback;
 
-        # creates options for the desired type of moudule
-        options.programs.caelestia-dots = lib.setAttrByPath path (lib.recursiveUpdate (
-          opts.options.${type} parent default mod_name
-        ) (module_set.options or {}));
+          # function that takes any other module's option or use a fallback if that module is not active
+          use = modulePath: settingPath: fallback:
+            withMod modulePath (module: let
+              sett =
+                if module._meta.type == "normal"
+                then module.settings
+                else module;
+              opt = lib.getAttrFromPath (lib.splitString "." settingPath) sett;
+            in
+              opt)
+            fallback;
 
-        config = with lib;
-          mkMerge [
-            # _meta.active default value is true if the module is enabled and its parent is active. The value can be overriden by user.
-            # non-normal modules set their own active state default in options.nix
-            {programs.caelestia-dots = setAttrByPath path {_meta.active = mkIf isNormalMod (mkDefault ((parent._meta.active or parent.enable) && mod.enable));};}
-            (mkIf mod._meta.active (module_set.config or {}))
-          ];
-      }
+          # apply expression conditionally if module is active
+          ifActive = modulePath: _then: _else: withMod modulePath (_: _then) _else;
+        };
+
+        imported_mod_type = types.${type} args;
+      in (imported_mod_type
+        // {
+          options = lib.setAttrByPath (["programs" "caelestia-dots"] ++ args.path) imported_mod_type.options;
+        })
     );
 
     mkMod = parentPath: subPath: _make_module {inherit parentPath subPath;};
@@ -103,6 +88,12 @@
       _make_module {
         inherit parentPath subPath;
         type = "pass";
+      };
+
+    mkNode = parentPath: subPath:
+      _make_module {
+        inherit parentPath subPath;
+        type = "node";
       };
 
     mkMultipleMods = {

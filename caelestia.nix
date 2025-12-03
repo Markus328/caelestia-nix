@@ -14,8 +14,6 @@ in {
         parent = [];
         args.type = "pass";
       } [
-        ["caelestia" "cli"]
-        ["caelestia" "shell"]
         ["term" "fish"]
         ["term" "starship"]
         ["term" "eza"]
@@ -24,7 +22,8 @@ in {
       "hypr"
       "btop"
       "foot"
-    ]);
+    ])
+    ++ [(mkNode [] ["caelestia"])];
 
   options = with lib; {
     programs.caelestia-dots = {
