@@ -5,7 +5,7 @@
 > [!TIP]
 > Looking for instructions? Skip this section.
 
-Here there's a list of default configs for each module, use them to guide you through your overrides, they are greatly based (copied) on caelestia-dots, but with some minor substituions and integrations.
+Here there's a list of default configs for each module, use them to guide you through your overrides, they are greatly based (copied) on caelestia-dots, but with some minor substituions and integrations. Paths without links are just nodes.
 
 - [hypr](../configs/hypr/config.nix)
   - [variables](../configs/hypr/variables/config.nix) (raw)
@@ -63,6 +63,7 @@ Here, are the complete list of module types:
 - Normal modules (enable, settings): All config options goes to settings.
 - Raw modules (\*): Doesn't have any options, only write configs directly at its toplevel. Cannot have nested submodules
 - Pass modules (enable, \*): Just like a raw module, but with an enable option. Cannot have nested submodules
+- Nodes (enable): It's just a path that have submodules. They don't have any overridable configs and are only used as switch. However, nodes can have a fixed `config` that's applied when it's active. That means deactivating the node and force activating its submodules is not always equivalent.
 
 ```nix
 # normal modules
@@ -252,6 +253,7 @@ For more info about infusion, look at the [infuse.nix](https://codeberg.org/amjo
         ++ (lib.drop 3 _); # Insert new action at third position to the launcher
     };
     term = {
+      enable = false; # this will disable all child modules of `term` node.
       fish = {
         generateCompletions = false;
       };
