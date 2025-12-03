@@ -16,6 +16,7 @@ in {
       "btop"
       "foot"
       (mkNode [] "term")
+      (mkNode [] "editor")
     ]);
 
   options = with lib; {
