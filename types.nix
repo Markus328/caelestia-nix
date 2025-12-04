@@ -19,11 +19,16 @@ with lib; let
     infusableValue;
 
   # makes an option that values can be easily overriden
-  mkInfusableOption = default: description:
+  mkInfusableOption = default: ignoredAttrs: description:
     mkOption {
       type = infusableType;
       inherit default description;
-      apply = userSettings: infuse default userSettings;
+      apply = userSettings: let
+        # Solution to avoid infusing config.nix default (the one without _meta or enable) with generated default (with them).
+        infuseSettings = builtins.removeAttrs userSettings ignoredAttrs;
+        nonInfuseSettings = getAttrs ignoredAttrs userSettings;
+      in
+        (infuse default infuseSettings) // nonInfuseSettings;
     };
 
   mkAlreadyEnabledOption = description:
@@ -61,7 +66,7 @@ in {
     mkModOption = default: mod_name: ({
         enable = mkAlreadyEnabledOption "Enable Caelestia ${mod_name} module";
 
-        settings = mkInfusableOption default "Caelestia ${mod_name} module settings";
+        settings = mkInfusableOption default [] "Caelestia ${mod_name} module settings";
         extraConfig = mkOption {
           type = types.str;
           description = "Caelestia ${mod_name} module extra config";
@@ -88,7 +93,7 @@ in {
   # generally used by modules that doesn't make sense to disable directly and will not have any submodules.
   raw = let
     mkRawModOption = parent: default: mod_name:
-      (mkInfusableOption default "Caelestia ${mod_name} raw module")
+      (mkInfusableOption default ["_meta"] "Caelestia ${mod_name} raw module")
       // {
         type = types.submodule ({config, ...}: {
           options = metadata mod_name "raw";
@@ -117,7 +122,7 @@ in {
   # exactly equals to raw, but with an extra enable option. Useful to pass defaults to existent modules.
   pass = let
     mkPassModOption = parent: default: mod_name:
-      (mkInfusableOption default "Caelestia ${mod_name} pass module")
+      (mkInfusableOption default ["_meta" "enable"] "Caelestia ${mod_name} pass module")
       // {
         type = types.submodule ({config, ...}: {
           options =
