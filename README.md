@@ -1,3 +1,7 @@
+# DEPRECATED
+
+This project is now archived since I don't use Hyprland neither caelestia-shell anymore, though still using some caelestia-dots config. However, this approach of porting dotfiles seemed to me pretty useful and maybe in future I create a module inspired on the mechanics of this one to port other dotfiles (that I can use) or even a whole abstraction layer on top of `lib.modules`
+
 # caelestia.nix
 
 This home-manager module provides a declarative way to install and configure [caelestia-dots](https://github.com/caelestia-dots/caelestia) using Nix flakes. It includes default configurations from the caelestia-dots repository, written in Nix, and allows easy customization.
